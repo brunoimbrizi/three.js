@@ -740,6 +740,22 @@
 			}
 			mgeo.addAttribute( 'position', vertices );
 
+			var index = bgeo.index;
+			var indexLen = bgeo.index.count;
+			var indexPosLen = posLen / 3;
+			var indices = new THREE.BufferAttribute(
+				new Uint32Array( instanceCount * indexLen ), 1
+			);
+
+			for ( var i = 0, ul = instanceCount; i < ul; i ++ ) {
+				var indexOffset = i * indexLen;
+				var posOffset = i * indexPosLen;
+				for ( var j = 0, jl = indexLen; j < jl; j ++ ) {
+					indices.setX( j + indexOffset, index.array[j] + posOffset );
+				}
+			}
+			mgeo.setIndex( indices );
+
 			var colCount = posLen / 3;
 			var colors = new THREE.BufferAttribute(
 				new Float32Array( instanceCount * colCount * 3 ), 3
@@ -816,6 +832,9 @@
 
 			var vertices = bgeo.attributes.position.clone();
 			igeo.addAttribute( 'position', vertices );
+
+			var indices = bgeo.index.clone();
+			igeo.setIndex( indices );
 
 			// var matrices = new THREE.InstancedBufferAttribute(
 			// 	new Float32Array( instanceCount * 16 ), 16, 1
