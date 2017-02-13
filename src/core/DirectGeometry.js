@@ -141,11 +141,13 @@ Object.assign( DirectGeometry.prototype, {
 
 		//
 
+		this.vertices = vertices.concat();
+
 		for ( var i = 0; i < faces.length; i ++ ) {
 
 			var face = faces[ i ];
 
-			this.vertices.push( vertices[ face.a ], vertices[ face.b ], vertices[ face.c ] );
+			this.indices.push( face.a, face.b, face.c );
 
 			var vertexNormals = face.vertexNormals;
 
